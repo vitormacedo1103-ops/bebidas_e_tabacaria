@@ -1,4 +1,4 @@
-﻿# Bebidas & Tabacaria — Catálogo Digital
+﻿# Bebidas e Tabacaria — Catálogo Digital
 Site catálogo premium com carrinho e checkout via WhatsApp. Bairro Kennedy — onde era a APAX. Aberto todos os dias 16h–00h.
 Demo: https://vitormacedo1103-ops.github.io/bebidas_e_tabacaria/ (ative Pages em Settings → Pages → main)
 

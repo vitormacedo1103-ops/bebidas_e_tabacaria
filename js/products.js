@@ -1,5 +1,5 @@
-/* ============================================================
-   Bebidas & Tabacaria — Catálogo (dados de EXEMPLO)
+﻿/* ============================================================
+   Bebidas e Tabacaria — Catálogo (dados de EXEMPLO)
    ------------------------------------------------------------
    COMO TROCAR PELOS PRODUTOS REAIS:
    1) Coloque as fotos em:  /public/nome-do-produto.jpg

@@ -1,4 +1,4 @@
-/* Bebidas & Tabacaria — App (vanilla, sem dependências)
+﻿/* Bebidas e Tabacaria — App (vanilla, sem dependências)
    Componentes: Header, CategoryNavigation, ProductCard, ProductGrid,
    Search, CartButton, CartDrawer, CartItem, OrderSummary, WhatsAppCheckout, Footer */
 
@@ -350,7 +350,7 @@
     const name = ($("#customerName").value || "").trim();
     const lines = [];
     lines.push(`Olá! Sou ${name || "{nome}"}, quero fazer um pedido:`);
-    lines.push(`— Bebidas & Tabacaria —`);
+    lines.push(`— Bebidas e Tabacaria —`);
     lines.push(``);
     let i = 1;
     for (const [key, qty] of state.cart.entries()) {

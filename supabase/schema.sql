@@ -1,4 +1,4 @@
--- Bebidas & Tabacaria — Supabase schema
+﻿-- Bebidas e Tabacaria — Supabase schema
 -- Rode todo este arquivo no SQL Editor do Supabase
 -- Idempotente onde possível
 
