@@ -14,15 +14,22 @@
     cat: "todos",
     query: "",
     sort: "rel",
-    cart: new Map(), // id -> qty
+    cart: new Map(), // key -> qty (key = id or id::variantId)
     name: "",
   };
+
+  // Helpers que precisam estar antes da persistência
+  const getProducts = () => (window.STORE && window.STORE.products) || (typeof PRODUCTS!=="undefined"?PRODUCTS:[]);
+  const getCategories = () => (window.STORE && window.STORE.categories) || (typeof CATEGORIES!=="undefined"?CATEGORIES:[]);
+  const cartKey = (id, variantId) => variantId ? `${id}::${variantId}` : String(id);
+  const parseCartKey = (k) => { const [id,vid]=String(k).split("::"); return {id, variantId: vid||null}; };
 
   // ---------- Persistência ----------
   try {
     const saved = JSON.parse(localStorage.getItem("bt_cart_v1") || "{}");
-    Object.entries(saved).forEach(([id, q]) => {
-      if (PRODUCTS.some((p) => p.id === id) && q > 0 && q <= 99) state.cart.set(id, q);
+    Object.entries(saved).forEach(([k, q]) => {
+      const {id}=parseCartKey(k);
+      if (getProducts().some((p) => String(p.id)===String(id)) && q > 0 && q <= 99) state.cart.set(k, q);
     });
     state.name = localStorage.getItem("bt_name_v1") || "";
   } catch (e) {}
@@ -33,11 +40,14 @@
       localStorage.setItem("bt_name_v1", state.name);
     } catch (e) {}
   };
-
-  const byId = (id) => PRODUCTS.find((p) => p.id === id);
+  const byId = (id) => getProducts().find((p) => String(p.id) === String(id));
   const cartCount = () => Array.from(state.cart.values()).reduce((a, b) => a + b, 0);
   const cartTotal = () =>
-    Array.from(state.cart.entries()).reduce((sum, [id, q]) => sum + (byId(id)?.price || 0) * q, 0);
+    Array.from(state.cart.entries()).reduce((sum, [k, q]) => {
+      const {id, variantId}=parseCartKey(k); const p=byId(id); if(!p) return sum;
+      let price=p.price; if(variantId){ const v=(p.variants||[]).find(x=>String(x.id)===String(variantId)); if(v && v.price!=null) price=Number(v.price); }
+      return sum + price * q;
+    }, 0);
 
   // ---------- Status aberto/fechado ----------
   function renderStatus() {
@@ -51,16 +61,17 @@
 
   // ---------- CategoryNavigation ----------
   function catCount(id) {
-    if (id === "todos") return PRODUCTS.length;
+    const prods=getProducts();
+    if (id === "todos") return prods.length;
     if (id === "mais-vendidos")
-      return PRODUCTS.filter((p) => p.badge === "mais-vendido" || p.category === "mais-vendidos").length;
-    return PRODUCTS.filter((p) => p.category === id).length;
+      return prods.filter((p) => p.badge === "mais-vendido" || p.category === "mais-vendidos").length;
+    return prods.filter((p) => p.category === id).length;
   }
 
   function renderCats() {
     const nav = $("#catNav");
     nav.innerHTML = "";
-    CATEGORIES.forEach((c) => {
+    getCategories().forEach((c) => {
       const b = document.createElement("button");
       b.className = "cat-pill";
       b.type = "button";
@@ -78,7 +89,7 @@
   // ---------- Filtro + ordenação ----------
   function filtered() {
     const q = state.query.trim().toLowerCase();
-    let list = PRODUCTS.filter((p) => {
+    let list = getProducts().filter((p) => {
       const inCat =
         state.cat === "todos" ? true
         : state.cat === "mais-vendidos"
@@ -116,11 +127,12 @@
       </div>
       <div class="card-body">
         ${b ? `<span class="badge ${b[0]}">${b[1]}</span>` : ``}
-        <p class="card-cat">${(CATEGORIES.find((c) => c.id === p.category)?.label || p.category)}${p.demo ? " · exemplo" : ""}</p>
+        <p class="card-cat">${(getCategories().find((c) => c.id === p.category)?.label || p.category)}${p.demo ? " · exemplo" : ""}${p.originalPrice?` <s class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">de ${money(p.originalPrice)}</s>`:""}</p>
         <h3 class="card-name">${p.name}</h3>
         <p class="card-desc">${p.desc}</p>
+        ${p.variants && p.variants.length ? `<label class="variant-select" style="display:grid;gap:6px;margin:6px 0"><span class="small" style="font-weight:600">Opção</span><select class="variant-picker" aria-label="Escolher variante de ${p.name}">${p.variants.map(v=>`<option value="${v.id}">${v.title}${v.price!=null?` — ${money(v.price)}`:""}${v.stock===0?" (esgotado)":""}</option>`).join("")}</select></label>` : ""}
         <div class="card-foot">
-          <span class="price"><strong>${money(p.price)}</strong><small>/ ${p.unit}</small></span>
+          <span class="price"><strong class="price-val">${money(p.price)}</strong><small>/ ${p.unit||"un"}</small></span>
           <button class="add-btn" type="button" aria-label="Adicionar ${p.name} ao carrinho">Adicionar</button>
         </div>
       </div>`;
@@ -141,7 +153,24 @@
     }
 
     const btn = $(".add-btn", art);
-    btn.addEventListener("click", () => addToCart(p.id, btn));
+    const picker = $(".variant-picker", art);
+    const priceVal = $(".price-val", art);
+    function variantPrice(){
+      if(!picker) return p.price;
+      const vid=picker.value; const v=(p.variants||[]).find(x=>String(x.id)===String(vid));
+      return v && v.price!=null ? Number(v.price) : p.price;
+    }
+    if(picker){
+      picker.addEventListener("change", ()=>{ priceVal.textContent = money(variantPrice()); });
+      priceVal.textContent = money(variantPrice());
+    }
+    btn.addEventListener("click", () => {
+      if(picker){
+        const v=(p.variants||[]).find(x=>String(x.id)===String(picker.value));
+        if(v && v.stock===0){ toast("Variante esgotada"); return; }
+      }
+      addToCart(p.id, btn, picker ? picker.value : null);
+    });
     return art;
   }
 
@@ -210,12 +239,14 @@
     }
   }
 
-  function addToCart(id, btn) {
-    state.cart.set(id, Math.min(99, (state.cart.get(id) || 0) + 1));
+  function addToCart(id, btn, variantId=null) {
+    const key=cartKey(id, variantId);
+    state.cart.set(key, Math.min(99, (state.cart.get(key) || 0) + 1));
     persist();
     renderCartButton();
     renderCart();
-    toast(`${byId(id).name} adicionado ✓`);
+    const p=byId(id); const v= variantId ? (p.variants||[]).find(x=>String(x.id)===String(variantId)) : null;
+    toast(`${p.name}${v?" ("+v.title+")":""} adicionado ✓`);
     if (btn) {
       const old = btn.textContent;
       btn.classList.add("added");
@@ -264,16 +295,19 @@
       ? "Confira e finalize no WhatsApp"
       : `${cartCount()} ${cartCount() === 1 ? "item" : "itens"} · ${money(cartTotal())}`;
 
-    entries.forEach(([id, qty]) => {
+    entries.forEach(([key, qty]) => {
+      const {id, variantId}=parseCartKey(key);
       const p = byId(id);
       if (!p) return;
+      const v = variantId ? (p.variants||[]).find(x=>String(x.id)===String(variantId)) : null;
+      const unitPrice = v && v.price!=null ? Number(v.price) : p.price;
       const li = document.createElement("li");
       li.className = "cart-item";
       li.innerHTML = `
         <span class="cart-thumb" aria-hidden="true">${initials(p.name)}</span>
         <div class="cart-item-info">
-          <strong>${p.name}</strong>
-          <small>${money(p.price)} / ${p.unit} · <b>${money(p.price * qty)}</b></small>
+          <strong>${p.name}${v?` <span class="muted" style="font-weight:400">— ${v.title}</span>`:""}</strong>
+          <small>${money(unitPrice)} / ${p.unit||"un"} · <b>${money(unitPrice * qty)}</b></small>
           <div class="qty">
             <button type="button" data-a="dec" aria-label="Diminuir quantidade de ${p.name}">−</button>
             <output aria-label="Quantidade">${qty}</output>
@@ -281,7 +315,7 @@
           </div>
         </div>
         <div class="cart-item-side">
-          <strong>${money(p.price * qty)}</strong>
+          <strong>${money(unitPrice * qty)}</strong>
           <button type="button" class="remove" data-a="rm">Remover</button>
         </div>`;
       const thumb = $(".cart-thumb", li);
@@ -296,10 +330,10 @@
         const btn = e.target.closest("button[data-a]");
         if (!btn) return;
         const a = btn.dataset.a;
-        const cur = state.cart.get(id) || 0;
-        if (a === "inc") state.cart.set(id, Math.min(99, cur + 1));
-        if (a === "dec") (cur <= 1) ? state.cart.delete(id) : state.cart.set(id, cur - 1);
-        if (a === "rm") { state.cart.delete(id); toast("Item removido"); }
+        const cur = state.cart.get(key) || 0;
+        if (a === "inc") state.cart.set(key, Math.min(99, cur + 1));
+        if (a === "dec") (cur <= 1) ? state.cart.delete(key) : state.cart.set(key, cur - 1);
+        if (a === "rm") { state.cart.delete(key); toast("Item removido"); }
         persist(); renderCartButton(); renderCart();
       });
       list.appendChild(li);
@@ -319,10 +353,13 @@
     lines.push(`— Bebidas & Tabacaria —`);
     lines.push(``);
     let i = 1;
-    for (const [id, qty] of state.cart.entries()) {
+    for (const [key, qty] of state.cart.entries()) {
+      const {id, variantId}=parseCartKey(key);
       const p = byId(id);
       if (!p) continue;
-      lines.push(`${i}) ${qty}x ${p.name} — ${money(p.price)} cada = ${money(p.price * qty)}`);
+      const v = variantId ? (p.variants||[]).find(x=>String(x.id)===String(variantId)) : null;
+      const unitPrice = v && v.price!=null ? Number(v.price) : p.price;
+      lines.push(`${i}) ${qty}x ${p.name}${v?" ("+v.title+")":""} — ${money(unitPrice)} cada = ${money(unitPrice * qty)}`);
       i++;
     }
     lines.push(``);
@@ -361,11 +398,11 @@
     syncHeaderH();
     window.addEventListener("resize", syncHeaderH);
     setTimeout(syncHeaderH, 300);
-    renderCats();
-    renderGrid();
+    const boot = () => { renderCats(); renderGrid(); renderCartButton(); renderCart(); };
+    window.addEventListener("store:ready", boot);
+    // render demo immediately, then re-render when Supabase loads
+    boot();
     bindSearch();
-    renderCartButton();
-    renderCart();
     if (state.name) $("#customerName").value = state.name;
 
     $("#cartOpenBtn").addEventListener("click", openCart);

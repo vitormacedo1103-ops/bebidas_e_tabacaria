@@ -1,3 +1,5 @@
 ﻿.opencode/
 Temp*
 *.log
+js/env.js
+.env

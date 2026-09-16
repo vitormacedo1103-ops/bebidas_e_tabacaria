@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Admin — Bebidas & Tabacaria</title>
+<meta name="supabase-url" content=""/>
+<meta name="supabase-anon-key" content=""/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Archivo:wght@700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="admin.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.supabaseJs = window.supabase;</script>
+<script src="../js/env.js" onerror="/* optional */"></script>
+<script src="../js/supabase.js"></script>
+</head>
+<body>
+<div id="loginView" class="login-wrap">
+  <form id="loginForm" class="card">
+    <img src="../public/logo.png" alt="" style="height:56px;border-radius:10px;display:block;margin:0 auto 12px"/>
+    <h1>Admin — Bebidas & Tabacaria</h1>
+    <p class="muted">Acesso restrito</p>
+    <label> E-mail <input id="email" type="email" required autocomplete="email"/></label>
+    <label> Senha <input id="password" type="password" required autocomplete="current-password"/></label>
+    <button type="submit" id="loginBtn" class="btn primary">Entrar</button>
+    <p id="loginError" class="error" hidden></p>
+    <p class="muted small">Crie o usuário em Supabase → Authentication → Users</p>
+  </form>
+</div>
+
+<div id="appView" hidden>
+  <header class="admin-top">
+    <strong>Bebidas & Tabacaria — Admin</strong>
+    <div class="top-actions">
+      <span id="userEmail" class="muted small"></span>
+      <button id="logoutBtn" class="btn ghost">Sair</button>
+    </div>
+  </header>
+  <nav class="tabs">
+    <button data-tab="dash" class="tab active">Dashboard</button>
+    <button data-tab="products" class="tab">Produtos</button>
+    <button data-tab="form" class="tab">Novo produto</button>
+  </nav>
+
+  <main class="container">
+    <!-- DASH -->
+    <section id="dash" class="panel">
+      <div class="stats">
+        <div class="stat"><strong id="stTotal">—</strong><span>Total</span></div>
+        <div class="stat"><strong id="stActive">—</strong><span>Ativos</span></div>
+        <div class="stat"><strong id="stInactive">—</strong><span>Inativos</span></div>
+        <div class="stat warn"><strong id="stLow">—</strong><span>Estoque baixo</span></div>
+      </div>
+      <button class="btn primary" data-go="form">Adicionar produto</button>
+      <div id="dashList" class="list"></div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="panel" hidden>
+      <div class="toolbar">
+        <input id="search" placeholder="Buscar por nome..."/>
+        <select id="filterCat"><option value="">Todas categorias</option></select>
+        <select id="filterStatus"><option value="">Todos status</option><option value="active">Ativos</option><option value="inactive">Inativos</option></select>
+      </div>
+      <div id="productList" class="list"></div>
+    </section>
+
+    <!-- FORM -->
+    <section id="form" class="panel" hidden>
+      <form id="productForm" class="card">
+        <input type="hidden" id="editId"/>
+        <h2 id="formTitle">Novo produto</h2>
+        <label>Nome <input id="fName" required/></label>
+        <label>Descrição <textarea id="fDesc" rows="3"></textarea></label>
+        <div class="row">
+          <label>Preço <input id="fPrice" type="number" step="0.01" min="0" required/></label>
+          <label>Preço promo (opcional) <input id="fPromo" type="number" step="0.01" min="0"/></label>
+        </div>
+        <div class="row">
+          <label>Categoria <select id="fCategory"></select></label>
+          <label>Status <select id="fActive"><option value="true">Ativo</option><option value="false">Inativo</option></select></label>
+          <label>Estoque <input id="fStock" type="number" min="0" step="1" value="0"/></label>
+        </div>
+
+        <fieldset>
+          <legend>Imagens</legend>
+          <input id="fImages" type="file" accept="image/*" multiple/>
+          <div id="preview" class="preview"></div>
+          <p class="muted small">Primeira imagem = principal. Arraste mentalmente pela ordem de seleção; remova com ×.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Variantes (opcional)</legend>
+          <div id="variants"></div>
+          <button type="button" id="addVariant" class="btn ghost">+ Adicionar variante</button>
+          <p class="muted small">Ex.: “P”, “M”, “350ml”. Se houver variantes, o estoque pode ser por variante.</p>
+        </fieldset>
+
+        <div class="row">
+          <button type="submit" class="btn primary">Salvar produto</button>
+          <button type="button" id="cancelEdit" class="btn ghost">Cancelar</button>
+        </div>
+        <p id="formError" class="error" hidden></p>
+        <p id="formOk" class="ok" hidden>Salvo!</p>
+      </form>
+    </section>
+  </main>
+</div>
+<script src="admin.js"></script>
+</body>
+</html>

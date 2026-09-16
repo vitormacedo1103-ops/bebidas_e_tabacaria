@@ -369,6 +369,7 @@ a{color:inherit}
 .brand-mark{background:none;padding:0}
 .brand-mark img{display:block;height:64px;width:auto;border-radius:10px}
 .mini-logo img{display:block;height:36px;width:auto;border-radius:8px}
+.variant-select select{width:100%;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:10px;padding:10px;min-height:44px}
 .loja-photo{display:block;width:100%;height:auto;object-fit:contain;border-radius:12px;margin:0 0 12px;background:var(--surface-2)}
 @media (max-width:719px){
   .brand-mark img{height:56px}
