@@ -134,7 +134,7 @@
       </div>
       <div class="card-body">
         ${b ? `<span class="badge ${b[0]}">${b[1]}</span>` : ``}
-        <p class="card-cat">${(getCategories().find((c) => c.id === p.category)?.label || p.category)}${p.demo ? " · exemplo" : ""}${p.originalPrice?` <s class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">de ${money(p.originalPrice)}</s>`:""}</p>
+        <p class="card-cat" ${p.originalPrice?"":'style="display:none"'}>${p.originalPrice?`de <s style="font-weight:400;text-transform:none;letter-spacing:0">${money(p.originalPrice)}</s>`:""}</p>
         <h3 class="card-name">${p.name}</h3>
         <p class="card-desc">${p.desc}</p>
         ${p.variants && p.variants.length ? `<label class="variant-select" style="display:grid;gap:6px;margin:6px 0"><span class="small" style="font-weight:600">Opção</span><select class="variant-picker" aria-label="Escolher variante de ${p.name}">${p.variants.map(v=>`<option value="${v.id}">${v.title}${v.price!=null?` — ${money(v.price)}`:""}${v.stock===0?" (esgotado)":""}</option>`).join("")}</select></label>` : ""}

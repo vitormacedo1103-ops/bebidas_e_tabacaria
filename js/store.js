@@ -26,13 +26,15 @@
             const imgs=(p.product_images||[]).sort((a,b)=>a.position-b.position);
             const main=imgs.find(i=>i.is_main)||imgs[0];
             const priceNum=Number(p.price), promoNum=p.promo_price!=null ? Number(p.promo_price) : null;
-            const hasPromo=promoNum!=null && !isNaN(promoNum) && promoNum < priceNum;
+            const hasPromo=promoNum!=null && !isNaN(promoNum) && promoNum !== priceNum;
+            const finalPrice= hasPromo ? Math.min(priceNum, promoNum) : priceNum;
+            const originalPrice= hasPromo ? Math.max(priceNum, promoNum) : null;
             return {
               id: p.id,
               name: p.name,
               desc: p.description||"",
-              price: hasPromo ? promoNum : priceNum,
-              originalPrice: hasPromo ? priceNum : null,
+              price: finalPrice,
+              originalPrice: originalPrice,
               category: p.categories?.slug || "outros",
               unit: "un",
               badge: null,
