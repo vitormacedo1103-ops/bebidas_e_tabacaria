@@ -209,8 +209,8 @@ a{color:inherit}
 .cart-item-info strong{display:block;font-size:.9rem;line-height:1.3}
 .cart-item-info small{color:var(--muted)}
 .qty{display:flex;align-items:center;gap:8px;margin-top:8px}
-.qty button{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:#0C0E0B;font-weight:800;font-size:1.05rem;line-height:1}
-.qty output{min-width:28px;text-align:center;font-weight:800;background:#fff;color:#0C0E0B;border-radius:8px;padding:4px 6px}
+.qty button{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:#0C0E0B;font-weight:800;font-size:1.05rem;line-height:1;display:grid;place-items:center}
+.qty output{width:36px;height:36px;display:grid;place-items:center;text-align:center;font-weight:800;background:#fff;color:#0C0E0B;border:1.5px solid var(--line);border-radius:10px}
 .cart-item-side{text-align:right;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
 .cart-item-side strong{font-size:.95rem}
 .remove{background:none;border:0;color:var(--danger);font-size:.82rem;text-decoration:underline;padding:6px}
@@ -330,7 +330,7 @@ a{color:inherit}
   .cart-item-side{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;width:100%}
   .qty{gap:10px}
   .qty button{width:44px;height:44px}
-  .qty output{min-width:26px}
+  .qty output{width:44px;height:44px;min-width:44px}
   .remove{padding:12px 10px;min-height:44px}
   .checkout{padding:16px 14px}
   .field input{font-size:16px;min-height:52px}
