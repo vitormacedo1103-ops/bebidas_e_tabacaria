@@ -6,8 +6,12 @@
   "use strict";
   // Corrige bug mobile: recarregar no meio mantinha scroll. Força topo no reload.
   try { if('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e){}
-  window.addEventListener('load', () => window.scrollTo(0,0));
-  window.addEventListener('pageshow', (e) => { if(e.persisted) window.scrollTo(0,0); });
+  const toTop = () => window.scrollTo(0,0);
+  window.addEventListener('load', toTop);
+  window.addEventListener('pageshow', (e) => { if(e.persisted) toTop(); });
+  document.addEventListener('DOMContentLoaded', toTop);
+  // garante que mesmo após render do catálogo não volte ao meio
+  window.addEventListener('store:ready', () => { if(!location.hash) toTop(); });
 
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
