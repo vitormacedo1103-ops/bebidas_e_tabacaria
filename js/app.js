@@ -16,6 +16,7 @@
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const BRL = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
   const money = (v) => BRL.format(v);
+  const esc = (s) => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
   const state = {
     cat: "todos",
@@ -134,11 +135,11 @@
       </div>
       <div class="card-body">
         ${b ? `<span class="badge ${b[0]}">${b[1]}</span>` : ``}
-        <h3 class="card-name">${p.name}</h3>
-        <p class="card-desc">${p.desc}</p>
-        ${p.variants && p.variants.length ? `<label class="variant-select" style="display:grid;gap:6px;margin:6px 0"><span class="small" style="font-weight:600">Opção</span><select class="variant-picker" aria-label="Escolher variante de ${p.name}">${p.variants.map(v=>`<option value="${v.id}">${v.title}${v.price!=null?` — ${money(v.price)}`:""}${v.stock===0?" (esgotado)":""}</option>`).join("")}</select></label>` : ""}
+        <h3 class="card-name">${esc(p.name)}</h3>
+        <p class="card-desc">${esc(p.desc)}</p>
+        ${p.variants && p.variants.length ? `<label class="variant-select" style="display:grid;gap:6px;margin:6px 0"><span class="small" style="font-weight:600">Opção</span><select class="variant-picker" aria-label="Escolher variante de ${esc(p.name)}">${p.variants.map(v=>`<option value="${esc(v.id)}">${esc(v.title)}${v.price!=null?` — ${money(v.price)}`:""}${v.stock===0?" (esgotado)":""}</option>`).join("")}</select></label>` : ""}
         <div class="card-foot">
-          <span class="price">${p.originalPrice?`<small class="price-old">de ${money(p.originalPrice)}</small>`:``}<strong class="price-val">${money(p.price)}</strong><small>/ ${p.unit||"un"}</small></span>
+          <span class="price">${p.originalPrice?`<small class="price-old">de ${money(p.originalPrice)}</small>`:``}<strong class="price-val">${money(p.price)}</strong></span>
           <button class="add-btn" type="button" aria-label="Adicionar ${p.name} ao carrinho">Adicionar</button>
         </div>
       </div>`;
