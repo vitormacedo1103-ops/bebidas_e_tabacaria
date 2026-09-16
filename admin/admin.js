@@ -34,7 +34,12 @@
     if(error){ $("#loginError").hidden=false; $("#loginError").textContent= error.message.includes("Invalid")?"E-mail ou senha inválidos.": error.message; }
     $("#loginBtn").disabled=false; $("#loginBtn").textContent="Entrar";
   });
-  byId("logoutBtn").addEventListener("click", async()=>{ await sb.auth.signOut(); });
+  byId("logoutBtn").addEventListener("click", async()=>{ await sb.auth.signOut(); byId("userPopup").hidden=true; byId("logoMenuBtn").setAttribute("aria-expanded","false"); });
+  // Logo popup
+  const logoBtn=byId("logoMenuBtn"), popup=byId("userPopup");
+  logoBtn.addEventListener("click", (e)=>{ e.stopPropagation(); const willShow=popup.hidden; popup.hidden=!willShow; logoBtn.setAttribute("aria-expanded", String(willShow)); });
+  document.addEventListener("click", (e)=>{ if(!popup.hidden && !popup.contains(e.target) && e.target!==logoBtn && !logoBtn.contains(e.target)){ popup.hidden=true; logoBtn.setAttribute("aria-expanded","false"); } });
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && !popup.hidden){ popup.hidden=true; logoBtn.setAttribute("aria-expanded","false"); } });
 
   // Categories
   async function loadCategories(){

@@ -29,10 +29,15 @@
 
 <div id="appView" hidden>
   <header class="admin-top">
-    <strong>Bebidas e Tabacaria — Admin</strong>
+    <strong>ADMIN</strong>
     <div class="top-actions">
-      <span id="userEmail" class="muted small"></span>
-      <button id="logoutBtn" class="btn ghost">Sair</button>
+      <button id="logoMenuBtn" class="logo-btn" aria-label="Abrir menu do usuário" aria-haspopup="true" aria-expanded="false">
+        <img src="../public/logo.png" alt="" />
+      </button>
+      <div id="userPopup" class="user-popup" hidden>
+        <span id="userEmail" class="muted small"></span>
+        <button id="logoutBtn" class="btn ghost small">Sair</button>
+      </div>
     </div>
   </header>
   <nav class="tabs">
