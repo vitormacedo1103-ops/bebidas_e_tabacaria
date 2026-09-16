@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Bebidas & Tabacaria — Catálogo | Bairro Kennedy</title>
+  <meta name="description" content="Catálogo digital da Bebidas & Tabacaria — cervejas, bebidas, destilados, energéticos e tabacaria. Monte seu pedido e finalize pelo WhatsApp. Aberto todos os dias 16h às 00h." />
+  <meta name="theme-color" content="#0B0D0A" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="public/logo.png" />
+</head>
+<body>
+  <a class="skip-link" href="#catalogo">Pular para o catálogo</a>
+
+  <!-- Topbar / status -->
+  <div class="topbar" role="status" aria-live="polite">
+    <div class="container topbar-inner">
+      <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+      <span id="statusText">Aberto todos os dias · 16h às 00h</span>
+      <span class="topbar-sep" aria-hidden="true">•</span>
+      <span>Bairro Kennedy — onde era a APAX</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="topo">
+    <div class="container header-inner">
+      <a class="brand" href="#topo" aria-label="Bebidas e Tabacaria — início">
+        <span class="brand-mark" aria-hidden="true"><img src="public/logo.png" alt="" fetchpriority="high" decoding="async" /></span>
+        <span class="brand-text">
+          <strong>Bebidas & Tabacaria</strong>
+          <small>Catálogo digital · Kennedy</small>
+        </span>
+      </a>
+
+      <div class="header-search" role="search">
+        <label class="sr-only" for="searchDesktop">Buscar produtos</label>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="searchDesktop" type="search" placeholder="Buscar cerveja, essência, energético…" autocomplete="off" />
+      </div>
+
+      <div class="header-actions">
+        <a class="btn btn-whats btn-sm" href="https://wa.me/5581985408060?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20da%20Bebidas%20%26%20Tabacaria%20e%20quero%20fazer%20um%20pedido." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.5c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l.8-.9c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .6-.6 1.6Z"/></svg>
+          <span>WhatsApp</span>
+        </a>
+        <button class="cart-btn" id="cartOpenBtn" aria-label="Abrir carrinho" aria-haspopup="dialog" aria-controls="cartDrawer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 4h2l2.4 12.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20.5 8H6"/><circle cx="9.5" cy="20" r="1.4" fill="currentColor"/><circle cx="17.5" cy="20" r="1.4" fill="currentColor"/></svg>
+          <span class="cart-btn-label">Carrinho</span>
+          <span class="cart-count" id="cartCount" aria-live="polite" aria-label="0 itens no carrinho">0</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="container header-search-mobile" role="search">
+      <label class="sr-only" for="searchMobile">Buscar produtos</label>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="searchMobile" type="search" placeholder="Buscar no catálogo…" autocomplete="off" />
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span aria-hidden="true">●</span> Aberto hoje · 16h às 00h · Kennedy</p>
+          <h1 id="heroTitle">Sua noite resolvida <em>em minutos.</em></h1>
+          <p class="hero-sub">Cerveja gelada, destilados, energéticos e tabacaria. Monte o carrinho e finalize pelo WhatsApp — sem cadastro, sem complicação.</p>
+          <div class="hero-ctas">
+            <a href="#catalogo" class="btn btn-primary">Ver catálogo
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m0 0 6-6m-6 6-6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="https://wa.me/5581985408060?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20da%20Bebidas%20%26%20Tabacaria." target="_blank" rel="noopener">Chamar no WhatsApp</a>
+          </div>
+          <ul class="hero-meta">
+            <li><strong>Todo dia</strong><span>16h — 00h</span></li>
+            <li><strong>Entrega</strong><span>a combinar no WhatsApp</span></li>
+            <li><strong>Pagamento</strong><span>a combinar na entrega</span></li>
+          </ul>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <div class="hero-card-top">
+            <span class="mini-pill">Pedido em 3 passos</span>
+          </div>
+          <ol class="hero-steps">
+            <li><b>1</b><div><strong>Monte o carrinho</strong><span>Toque em adicionar</span></div></li>
+            <li><b>2</b><div><strong>Informe seu nome</strong><span>Dentro do carrinho</span></div></li>
+            <li><b>3</b><div><strong>Envie no WhatsApp</strong><span>Pedido pronto p/ loja</span></div></li>
+          </ol>
+          <div class="hero-card-foot">
+            <span class="demo-note">Demonstração — fotos e preços reais em breve</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorias -->
+    <div class="catbar" id="catalogo">
+      <div class="container">
+        <nav class="cat-scroll" id="catNav" aria-label="Categorias do catálogo"></nav>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <section class="toolbar container" aria-label="Filtros do catálogo">
+      <div class="toolbar-row">
+        <p class="results" id="resultsCount" aria-live="polite"></p>
+        <div class="toolbar-controls">
+          <label class="sort-wrap">
+            <span class="sr-only">Ordenar produtos</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10m-7 5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+            <select id="sortSelect" aria-label="Ordenar produtos">
+              <option value="rel">Mais relevantes</option>
+              <option value="asc">Menor preço</option
+              <option value="desc">Maior preço</option>
+              <option value="az">A–Z</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="demo-banner" role="note">
+        <strong>Catálogo demonstrativo:</strong> produtos, preços e fotos são exemplos para validação. Substitua em <code>js/products.js</code> e adicione as fotos em <code>/public</code>.
+      </p>
+    </section>
+
+    <!-- Grade -->
+    <section class="container grid-section" aria-label="Produtos">
+      <div class="grid" id="productGrid"></div>
+      <div class="empty" id="emptyState" hidden>
+        <p class="empty-title">Nenhum produto encontrado</p>
+        <p>Tente buscar por “cerveja”, “gelo” ou “essência”, ou toque em outra categoria.</p>
+        <button class="btn btn-primary" id="clearFilters">Limpar busca</button>
+      </div>
+    </section>
+
+    <!-- Como funciona / Info -->
+    <section class="info container" aria-label="Informações da loja">
+      <div class="info-grid">
+        <article class="info-card">
+          <h2>Como pedir</h2>
+          <ol>
+            <li>Adicione os itens ao carrinho.</li>
+            <li>Abra o carrinho, confira e informe seu nome.</li>
+            <li>Toque em <strong>Finalizar no WhatsApp</strong> — o pedido vai pronto.</li>
+          </ol>
+        </article>
+        <article class="info-card">
+          <img class="loja-photo" src="public/fachada-da-loja.png" alt="Fachada da Bebidas & Tabacaria no Bairro Kennedy" loading="lazy" decoding="async" />
+          <h2>Horário & local</h2>
+          <p><strong>Aberto todos os dias · 16h às 00h</strong></p>
+          <p>Bairro Kennedy — onde era a APAX.</p>
+          <p>Retirada ou entrega por motoboy/Uber <strong>a combinar no WhatsApp</strong>. Sem taxa fixa no site.</p>
+        </article>
+        <article class="info-card">
+          <h2>Atendimento</h2>
+          <p>Fale direto com a loja:</p>
+          <a class="btn btn-whats" href="https://wa.me/5581985408060?text=Ol%C3%A1!%20Preciso%20de%20ajuda%20com%20meu%20pedido." target="_blank" rel="noopener">(81) 98540-8060</a>
+          <p class="muted">Compras e varejo · Bebidas & Tabacaria 🍻💨</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="brand-mini"><img src="public/logo.png" alt="" decoding="async" /> Bebidas & Tabacaria</p>
+        <p class="muted">Catálogo digital · Bairro Kennedy · 16h–00h todos os dias.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a class="btn btn-ghost btn-sm" href="#catalogo">Catálogo</a>
+        <a class="btn btn-ghost btn-sm" href="#topo">Voltar ao topo</a>
+        <a class="btn btn-whats btn-sm" href="https://wa.me/5581985408060" target="_blank" rel="noopener" aria-label="Abrir WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.5c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l.8-.9c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .6-.6 1.6Z"/></svg>
+          WhatsApp
+        </a>
+        <a class="btn btn-instagram btn-sm" href="https://instagram.com/bebidas_e_tabacaria" target="_blank" rel="noopener" aria-label="Abrir Instagram @bebidas_e_tabacaria">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>
+          @bebidas_e_tabacaria
+        </a>
+      </nav>
+      <div>
+        <p class="muted small">Preços e disponibilidade podem variar. Entrega e pagamento combinados pelo WhatsApp. Beba com responsabilidade. +18.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Barra mobile -->
+  <button class="mobile-cart" id="mobileCartBar" hidden aria-label="Ver carrinho">
+    <span>Ver carrinho · <strong id="mobileCartTotal">R$ 0,00</strong></span>
+    <span class="mobile-cart-n" id="mobileCartN">0</span>
+  </button>
+
+  <!-- Drawer -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <div>
+        <h2 id="drawerTitle">Seu carrinho</h2>
+        <p class="muted" id="drawerSub">Confira e finalize no WhatsApp</p>
+      </div>
+      <button class="icon-btn" id="cartCloseBtn" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div id="cartEmpty" class="cart-empty">
+        <p class="cart-empty-title">Carrinho vazio</p>
+        <p class="muted">Adicione cervejas, bebidas ou itens de tabacaria para começar.</p>
+        <button class="btn btn-primary" id="emptyGoCatalog">Ver catálogo</button>
+      </div>
+
+      <ul class="cart-list" id="cartList"></ul>
+
+      <div class="checkout" id="checkoutBox" hidden>
+        <label class="field">
+          <span>Seu nome <em>*</em></span>
+          <input id="customerName" type="text" placeholder="Ex.: Carlos Silva" autocomplete="name" maxlength="60" />
+          <small class="field-error" id="nameError" hidden>Informe seu nome para finalizar.</small>
+        </label>
+
+        <div class="summary" aria-live="polite">
+          <div class="summary-row"><span>Itens</span><strong id="sumCount">0</strong></div>
+          <div class="summary-row"><span>Subtotal</span><strong id="sumTotal">R$ 0,00</strong></div>
+          <div class="summary-row muted"><span>Entrega</span><span>a combinar</span></div>
+          <div class="summary-total"><span>Total</span><strong id="grandTotal">R$ 0,00</strong></div>
+        </div>
+
+        <button class="btn btn-whats btn-block" id="checkoutBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.5c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l.8-.9c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .6-.6 1.6Z"/></svg>
+          Finalizar pedido no WhatsApp
+        </button>
+        <button class="link-btn" id="clearCart">Limpar carrinho</button>
+        <p class="muted small center">Ao finalizar, o WhatsApp abre com o pedido pronto. Pagamento e entrega são combinados com a loja.</p>
+      </div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
