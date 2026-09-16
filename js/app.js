@@ -4,13 +4,7 @@
 
 (function () {
   "use strict";
-  // Corrige bug mobile: recarregar mantinha posição anterior. Força topo sem mudar layout.
-  try { if('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e){}
-  const toTop = () => { window.scrollTo(0,0); document.documentElement.scrollTop=0; document.body.scrollTop=0; };
-  window.addEventListener('load', () => { toTop(); setTimeout(toTop, 50); setTimeout(toTop, 200); });
-  window.addEventListener('pageshow', (e) => { if(e.persisted) toTop(); });
-  document.addEventListener('DOMContentLoaded', toTop);
-  window.addEventListener('store:ready', () => { if(!location.hash) toTop(); });
+  // Site leve — sem forçar scroll no reload (nativo do navegador)
 
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
@@ -129,9 +123,7 @@
     const b = badgeLabel(p);
     art.innerHTML = `
       <div class="card-media">
-        <div class="card-fallback" aria-hidden="true">
-          <strong>${initials(p.name)}</strong><span>Foto em /public</span>
-        </div>
+        <div class="card-fallback" aria-hidden="true"></div>
       </div>
       <div class="card-body">
         ${b ? `<span class="badge ${b[0]}">${b[1]}</span>` : ``}
@@ -144,24 +136,19 @@
         </div>
       </div>`;
 
-    // imagem real — esconde fallback quando carrega
     const media = $(".card-media", art);
     const fallback = $(".card-fallback", art);
     const img = document.createElement("img");
     img.loading = "lazy";
     img.alt = p.name;
     img.decoding = "async";
-    img.src = p.image;
-    img.onload = () => { if(fallback) fallback.style.display="none"; };
-    img.onerror = () => img.remove();
-    media.appendChild(img);
-    // se imagem for data: ou cache já carregada
-    if(img.complete && img.naturalWidth) fallback.style.display="none";
-    if (p.demo) {
-      const d = document.createElement("span");
-      d.className = "badge demo-b";
-      d.textContent = "Demo";
-      media.appendChild(d);
+    img.src = p.image || "";
+    if(!p.image) fallback.style.display="none";
+    else {
+      img.onload = () => { if(fallback) fallback.style.display="none"; };
+      img.onerror = () => { img.remove(); if(fallback) fallback.style.display="none"; };
+      media.appendChild(img);
+      if(img.complete && img.naturalWidth) fallback.style.display="none";
     }
 
     const btn = $(".add-btn", art);
@@ -316,10 +303,10 @@
       const li = document.createElement("li");
       li.className = "cart-item";
       li.innerHTML = `
-        <span class="cart-thumb" aria-hidden="true">${initials(p.name)}</span>
+        <span class="cart-thumb" aria-hidden="true"></span>
         <div class="cart-item-info">
-          <strong>${p.name}${v?` <span class="muted" style="font-weight:400">— ${v.title}</span>`:""}</strong>
-          <small>${money(unitPrice)} / ${p.unit||"un"} · <b>${money(unitPrice * qty)}</b></small>
+          <strong>${esc(p.name)}${v?` <span class="muted" style="font-weight:400">— ${esc(v.title)}</span>`:""}</strong>
+          <small>${money(unitPrice)} · <b>${money(unitPrice * qty)}</b></small>
           <div class="qty">
             <button type="button" data-a="dec" aria-label="Diminuir quantidade de ${p.name}">−</button>
             <output aria-label="Quantidade">${qty}</output>

@@ -1,47 +1,5 @@
-ARQUIVOS JÁ EM USO NESTA PASTA
-================================
-- logo.png ............ usada no cabeçalho e como ícone do site
-- fachada-da-loja.png . usada na seção "Horário & local"
-  (NÃO renomeie nem apague esses dois arquivos.)
-
-COMO ADICIONAR AS FOTOS REAIS
+Bebidas e Tabacaria — Imagens
 ==============================
-
-1) Coloque os arquivos .jpg/.png nesta pasta (public/).
-   Sugestão de nomes (iguais aos que já estão em js/products.js):
-
-   cerveja-pilsen-350ml.jpg
-   energetico-473ml.jpg
-   combo-noite.jpg
-   essencia-mint.jpg
-   cerveja-lager-473ml.jpg
-   pack-12-pilsen.jpg
-   cerveja-zero.jpg
-   refrigerante-2l.jpg
-   suco-1l.jpg
-   agua-500ml.jpg
-   gelo-2kg.jpg
-   vodka-750ml.jpg
-   whisky-1l.jpg
-   gin-750ml.jpg
-   energetico-2l.jpg
-   energetico-zero.jpg
-   carvao-1kg.jpg
-   essencia-frutas.jpg
-   aluminio.jpg
-   isqueiro.jpg
-   seda.jpg
-   dichavador.jpg
-   combo-churrasco.jpg
-   combo-sessao.jpg
-
-2) Se o nome do arquivo for igual ao campo "image" em js/products.js,
-   a foto aparece automaticamente. Sem esse arquivo, o site mostra
-   um placeholder elegante com as iniciais (não quebra).
-
-3) Tamanho recomendado: 800x800px, JPG otimizado (<200KB).
-   Pode usar qualquer conversor/compressor antes de salvar aqui.
-
-4) Depois troque em js/products.js:
-   - name, price, desc
-   - demo: true  ->  apague ou coloque false (some o selo DEMO)
+- logo.png e fachada-da-loja.png são usadas no site (não apague).
+- Produtos agora são gerenciados pelo painel /admin e as fotos vão para o Supabase Storage (bucket product-images).
+- A pasta public não é mais usada para fotos de produtos.
