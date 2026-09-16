@@ -4,13 +4,12 @@
 
 (function () {
   "use strict";
-  // Corrige bug mobile: recarregar no meio mantinha scroll. Força topo no reload.
+  // Corrige bug mobile: recarregar mantinha posição anterior. Força topo sem mudar layout.
   try { if('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e){}
-  const toTop = () => window.scrollTo(0,0);
-  window.addEventListener('load', toTop);
+  const toTop = () => { window.scrollTo(0,0); document.documentElement.scrollTop=0; document.body.scrollTop=0; };
+  window.addEventListener('load', () => { toTop(); setTimeout(toTop, 50); setTimeout(toTop, 200); });
   window.addEventListener('pageshow', (e) => { if(e.persisted) toTop(); });
   document.addEventListener('DOMContentLoaded', toTop);
-  // garante que mesmo após render do catálogo não volte ao meio
   window.addEventListener('store:ready', () => { if(!location.hash) toTop(); });
 
   const $ = (s, c = document) => c.querySelector(s);
