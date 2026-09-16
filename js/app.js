@@ -144,14 +144,19 @@
         </div>
       </div>`;
 
-    // imagem real por cima do placeholder (troca fácil: basta colocar o arquivo em /public)
+    // imagem real — esconde fallback quando carrega
     const media = $(".card-media", art);
+    const fallback = $(".card-fallback", art);
     const img = document.createElement("img");
     img.loading = "lazy";
     img.alt = p.name;
+    img.decoding = "async";
     img.src = p.image;
+    img.onload = () => { if(fallback) fallback.style.display="none"; };
     img.onerror = () => img.remove();
     media.appendChild(img);
+    // se imagem for data: ou cache já carregada
+    if(img.complete && img.naturalWidth) fallback.style.display="none";
     if (p.demo) {
       const d = document.createElement("span");
       d.className = "badge demo-b";

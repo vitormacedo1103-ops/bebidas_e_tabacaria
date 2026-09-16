@@ -142,9 +142,9 @@ a{color:inherit}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding-bottom:8px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .16s var(--ease),box-shadow .16s}
 @media(hover:hover){.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm)}}
-.card-media{position:relative;aspect-ratio:1/1;background:linear-gradient(135deg,#0D1206,#1E2C10 60%,#090C05);display:grid;place-items:center;overflow:hidden}
-.card-media img{width:100%;height:100%;object-fit:cover}
-.card-fallback{color:var(--accent);text-align:center;padding:12px}
+.card-media{position:relative;aspect-ratio:1/1;background:linear-gradient(135deg,#0D1206,#1E2C10 60%,#090C05);overflow:hidden}
+.card-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card-fallback{position:absolute;inset:0;display:grid;place-items:center;align-content:center;color:var(--accent);text-align:center;padding:12px}
 .card-fallback strong{font-family:var(--font-display);font-size:1.6rem;display:block;letter-spacing:.02em}
 .card-fallback span{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
 .badge{position:absolute;left:10px;top:10px;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}

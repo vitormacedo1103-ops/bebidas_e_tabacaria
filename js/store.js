@@ -25,12 +25,14 @@
           window.STORE.products = prods.map(p=>{
             const imgs=(p.product_images||[]).sort((a,b)=>a.position-b.position);
             const main=imgs.find(i=>i.is_main)||imgs[0];
+            const priceNum=Number(p.price), promoNum=p.promo_price!=null ? Number(p.promo_price) : null;
+            const hasPromo=promoNum!=null && !isNaN(promoNum) && promoNum < priceNum;
             return {
               id: p.id,
               name: p.name,
               desc: p.description||"",
-              price: p.promo_price!=null ? Number(p.promo_price) : Number(p.price),
-              originalPrice: p.promo_price!=null ? Number(p.price): null,
+              price: hasPromo ? promoNum : priceNum,
+              originalPrice: hasPromo ? priceNum : null,
               category: p.categories?.slug || "outros",
               unit: "un",
               badge: null,
